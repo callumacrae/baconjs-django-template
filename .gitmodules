@@ -1,0 +1,3 @@
+[submodule "bacon"]
+	path = bacon
+	url = git@github.com:callumacrae/baconjs.git
