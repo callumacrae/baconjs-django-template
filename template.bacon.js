@@ -101,7 +101,7 @@ function BaconTagNode(name, code, contents) {
 }
 BaconTagNode.prototype.parse = function(data) {
 	if (typeof bacon.template.tags[this.name] === 'function') {
-		return bacon.template.tags[this.name].call(null, this.code, this.content, data);
+		return bacon.template.tags[this.name].call(null, this.code, this.contents, data);
 	}
 	return '';
 };
@@ -157,7 +157,7 @@ bacon.template.tags.if = function(code, contents, data) {
 		for (var endString = '', i = 0; i < contents.length; i++) {
 			endString += contents[i].parse(data);
 		}
-		return ensString;
+		return endString;
 	}
 	return '';
 };
