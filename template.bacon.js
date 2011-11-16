@@ -1,6 +1,7 @@
 bacon.template = {};
 
 bacon.template.autoEscape = true;
+bacon.template.stringIfInvalid = '';
 
 /**
  * Parses a Django template using the provided data.
@@ -108,18 +109,22 @@ BaconTagNode.prototype.parse = function(data) {
 
 bacon.template._getVariable = function(name, filters, data) {
 	if (name.indexOf('.') < 0) {
-		var output = (typeof data[name] === 'undefined') ? '{{ ' + name + ' }}' : data[name];
+		var output = (typeof data[name] === 'undefined') ? bacon.template.stringIfInvalid : data[name];
 	} else {
 		var splitName = name.split('.');
 		var output = data[splitName[0]];
 		for (var i = 1; i < splitName.length; i++) {
 			if (typeof output !== 'object' || typeof output[splitName[i]] === 'undefined') {
-				output = '{{ ' + name + ' }}';
+				output = bacon.template.stringIfInvalid;
 				break;
 			}
 			output = output[splitName[i]];
 		}
 		delete i;
+	}
+
+	if (typeof output === 'function') {
+		output = output.call(null, data);
 	}
 
 	for (var e = false, i = 0; i < filters.length; i++) {
@@ -236,7 +241,7 @@ bacon.template.tags.for = function(code, contents, data) {
 	code = code.split(' ');
 	code[2] = code[2].split('|');
 	code[2] = bacon.template._getVariable(code[2][0], code[2].slice(1), data);
-	
+
 	for (var endString = '', i = 0, j; i < code[2].length; i++) {
 		data[code[0]] = code[2][i];
 		for (j = 0; j < contents.length; j++) {
