@@ -138,6 +138,76 @@ bacon.template._getVariable = function(name, filters, data) {
 	return output;
 };
 
+bacon.template._isTrue = function(code, data) {
+	if (code.indexOf(' or ') !== -1) {
+		code = code.split(' or ');
+		for (var e = false, i = 0; i < code.length; i++) {
+			if (bacon.template._isTrue(code[i], data)) {
+				e = true;
+			}
+		}
+		return e;
+	}
+
+	if (code.indexOf(' and ') !== -1) {
+		code = code.split(' and ');
+		for (var e = true, i = 0; i < code.length; i++) {
+			if (!bacon.template._isTrue(code[i], data)) {
+				e = false;
+			}
+		}
+		return e;
+	}
+
+	var not = (code.indexOf('not ') === 0), res;
+
+	if (not) {
+		code = code.slice(4);
+	}
+
+	if (code.indexOf(' ') < 0 && code.indexOf('|') < 0) {
+		res = bacon.template._getVariable(code, false, data);
+	} else if (code.indexOf(' ') < 0) {
+		code = code.split('|');
+		res = bacon.template._getVariable(code[0], code.slice('1'), data);
+	} else {
+		code = code.split(' ');
+		code[0] = bacon.template._getVariable(code[0], code.slice('1'), data);
+		switch (code[1]) {
+			case '==':
+				res = code[0] == code[2];
+				break;
+
+			case '!==':
+				res = code[0] !== code[2];
+				break;
+
+			case '<':
+				res = code[0] < code[2];
+				break;
+
+			case '>':
+				res = code[0] > code[2];
+				break;
+
+			case '<=':
+				res = code[0] <= code[2];
+				break;
+
+			case '>=':
+				res = code[0] >= code[2];
+				break;
+
+			default:
+				var error = new TypeError('Invalid operator');
+				error.type = 'invalid_operator';
+				throw error;
+		}
+	}
+
+	return (not) ? !res : res;
+}
+
 bacon.template.filters = {};
 bacon.template.filters.escape = function(input) {
 	if (typeof input !== 'string') {
@@ -153,7 +223,7 @@ bacon.template.filters.escape = function(input) {
 
 bacon.template.tags = {};
 bacon.template.tags.if = function(code, contents, data) {
-	if (bacon.template._getVariable(code, false, data)) {
+	if (bacon.template._isTrue(code, data)) {
 		for (var endString = '', i = 0; i < contents.length; i++) {
 			endString += contents[i].parse(data);
 		}
