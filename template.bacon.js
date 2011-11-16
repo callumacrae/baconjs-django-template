@@ -214,6 +214,14 @@ bacon.template._isTrue = function(code, data) {
 }
 
 bacon.template.filters = {};
+
+bacon.template.filters.addslashes = function(input) {
+	if (typeof input !== 'string') {
+		return input;
+	}
+	return input.replace(/("|')/g, '\\$1');
+};
+
 bacon.template.filters.escape = function(input) {
 	if (typeof input !== 'string') {
 		return input;
@@ -227,7 +235,7 @@ bacon.template.filters.escape = function(input) {
 
 bacon.template.filters.safe = function(input) {
 	return input;
-}
+};
 
 
 bacon.template.tags = {};

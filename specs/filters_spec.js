@@ -12,9 +12,15 @@ $.describe('filter tests', function() {
 	});
 
 	$.it('should use safe properly', function(done) {
-		var p = bacon.template.parse;
 		bacon.template.parse('{{ s|safe }}', data, function(res) {
 			$.expect(res).toEqual('ab<b>lol');
+			done();
+		});
+	});
+
+	$.it('should use addslashes properly', function(done) {
+		bacon.template.parse('{{ s|safe|addslashes }}', {s:'h"i"\''}, function(res) {
+			$.expect(res).toEqual('h\\"i\\"\\\'');
 			done();
 		});
 	});
