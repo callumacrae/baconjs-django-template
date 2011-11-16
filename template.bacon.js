@@ -58,7 +58,7 @@ bacon.template._parser = function(template, nested) {
 				}
 
 				var contents = bacon.template._parser(template.slice(i + 1), true);
-				template.splice(i, contents[1]);
+				template.splice(i + 1, contents[1] + 1);
 				contents = contents[0];
 
 				return new BaconTagNode(name, code, contents);
@@ -129,9 +129,9 @@ bacon.template._getVariable = function(name, filters, data) {
 
 	for (var e = false, i = 0; i < filters.length; i++) {
 		if (typeof bacon.template.filters[filters[i]] === 'function') {
-			output = bacon.template.filter[filter[i]].call(null, output);
+			output = bacon.template.filters[filters[i]].call(null, output);
 
-			if (filter[i] === 'escape') {
+			if (filters[i] === 'escape' || filters[i] === 'safe') {
 				e = true;
 			}
 		}
@@ -184,7 +184,7 @@ bacon.template._isTrue = function(code, data) {
 				break;
 
 			case '!==':
-				res = code[0] !== code[2];
+				res = code[0] != code[2];
 				break;
 
 			case '<':
@@ -224,6 +224,10 @@ bacon.template.filters.escape = function(input) {
 		.replace(/'/g, '&#39;')
 		.replace(/"/g, '&quot;');
 };
+
+bacon.template.filters.safe = function(input) {
+	return input;
+}
 
 
 bacon.template.tags = {};
