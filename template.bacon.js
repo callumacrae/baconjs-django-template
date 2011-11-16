@@ -26,7 +26,7 @@ bacon.template.parse = function(template, data, callback) {
 var TEXT = 0, VARIABLE = 1, TAG = 2;
 bacon.template._lexer = function(template) {
 	var end = [];
-	template = template.split(/(\{\{ [a-z]+ \}\}|\{% [^\{\}]+ %\})/g);
+	template = template.split(/(\{\{ [a-zA-Z0-9_\.\|]+ \}\}|\{% [^\{\}]+ %\})/g);
 	for (var i = 0; i < template.length; i++) {
 		if (template[i].indexOf('{%') === 0) {
 			end.push([TAG, template[i].slice(3, -3)]);
