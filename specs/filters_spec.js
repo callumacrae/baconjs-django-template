@@ -1,5 +1,6 @@
 $.describe('filter tests', function() {
 	var data = {
+		a: 'hello',
 		s: 'ab<b>lol'
 	};
 
@@ -9,19 +10,26 @@ $.describe('filter tests', function() {
 			$.expect(res).toEqual('ab&lt;b&gt;lol');
 			done();
 		});
-	});
+	}, true);
 
 	$.it('should use safe properly', function(done) {
 		bacon.template.parse('{{ s|safe }}', data, function(res) {
 			$.expect(res).toEqual('ab<b>lol');
 			done();
 		});
-	});
+	}, true);
 
 	$.it('should use addslashes properly', function(done) {
 		bacon.template.parse('{{ s|safe|addslashes }}', {s:'h"i"\''}, function(res) {
 			$.expect(res).toEqual('h\\"i\\"\\\'');
 			done();
 		});
-	});
+	}, true);
+
+	$.it('should capfirst correctly', function(done) {
+		bacon.template.parse('{{ a|capfirst }}', data, function(res) {
+			$.expect(res).toEqual('Hello');
+			done();
+		});
+	}, true);
 });

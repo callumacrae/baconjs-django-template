@@ -222,6 +222,10 @@ bacon.template.filters.addslashes = function(input) {
 	return input.replace(/("|')/g, '\\$1');
 };
 
+bacon.template.filters.capfirst = function(input) {
+	return input.charAt(0).toUpperCase() + input.slice(1);
+}
+
 bacon.template.filters.escape = function(input) {
 	if (typeof input !== 'string') {
 		return input;
