@@ -231,3 +231,17 @@ bacon.template.tags.if = function(code, contents, data) {
 	}
 	return '';
 };
+
+bacon.template.tags.for = function(code, contents, data) {
+	code = code.split(' ');
+	code[2] = code[2].split('|');
+	code[2] = bacon.template._getVariable(code[2][0], code[2].slice(1), data);
+	
+	for (var endString = '', i = 0, j; i < code[2].length; i++) {
+		data[code[0]] = code[2][i];
+		for (j = 0; j < contents.length; j++) {
+			endString += contents[j].parse(data);
+		}
+	}
+	return endString;
+};
