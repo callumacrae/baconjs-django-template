@@ -1,6 +1,7 @@
 $.describe('filter tests', function() {
 	var data = {
 		a: 'hello',
+		ar: ['a', 'b', 'c'],
 		s: 'ab<b>lol'
 	};
 
@@ -29,6 +30,13 @@ $.describe('filter tests', function() {
 	$.it('should capfirst correctly', function(done) {
 		bacon.template.parse('{{ a|capfirst }}', data, function(res) {
 			$.expect(res).toEqual('Hello');
+			done();
+		});
+	}, true);
+
+	$.it('should use .first correctly', function(done) {
+		bacon.template.parse('{{ ar|first }}', data, function(res) {
+			$.expect(res).toEqual('a');
 			done();
 		});
 	}, true);
