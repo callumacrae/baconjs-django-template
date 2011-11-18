@@ -92,5 +92,13 @@ $.describe('Core tests', function() {
 		$.expect(g('s', false, data)).toEqual('h&quot;l');
 		$.expect(g('s', ['escape'], data)).toEqual('h&quot;l');
 		$.expect(g('s', ['safe'], data)).toEqual('h"l');
+		$.expect(g('"hi"', {})).toEqual('hi');
+		$.expect(g('5', {})).toEqual(5);
+	});
+
+	$.it('should use filters with params correctly', function() {
+		var g = bacon.template._getVariable;
+		$.expect(g('', ['default_if_none:"test"'], {})).toEqual('test');
+		$.expect(g('', ['default_if_none:a'], {a:'b'})).toEqual('b');
 	});
 });

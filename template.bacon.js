@@ -26,7 +26,7 @@ bacon.template.parse = function(template, data, callback) {
 var TEXT = 0, VARIABLE = 1, TAG = 2;
 bacon.template._lexer = function(template) {
 	var end = [];
-	template = template.split(/(\{\# [^(\#\})]+ \#\}|\{\{ [a-zA-Z0-9_\.\|]+ \}\}|\{% [^\{\}]+ %\})/g);
+	template = template.split(/(\{\# [^(\#\})]+ \#\}|\{\{ [a-zA-Z0-9_\.\|:\"]+ \}\}|\{% [^\{\}]+ %\})/g);
 	for (var i = 0; i < template.length; i++) {
 		if (template[i].indexOf('{%') === 0) {
 			end.push([TAG, template[i].slice(3, -3)]);
@@ -108,6 +108,21 @@ BaconTagNode.prototype.parse = function(data) {
 };
 
 bacon.template._getVariable = function(name, filters, data) {
+	// Get strings
+	if (name.indexOf('"') === 0) {
+		name = name.split('"');
+		if (name.length === 3 && !name[0] && !name[2]) {
+			return name[1];
+		}
+		return bacon.template.stringIfInvalid;
+	}
+
+	// Get ints
+	if (!isNaN(parseInt(name))) {
+		return parseInt(name);
+	}
+
+	// Get variables
 	if (name.indexOf('.') < 0) {
 		var output = (typeof data[name] === 'undefined') ? bacon.template.stringIfInvalid : data[name];
 	} else {
@@ -127,9 +142,15 @@ bacon.template._getVariable = function(name, filters, data) {
 		output = output.call(null, data);
 	}
 
-	for (var e = false, i = 0; i < filters.length; i++) {
+	for (var arg, e = false, i = 0; i < filters.length; i++) {
+		arg = null;
+		if (filters[i].indexOf(':') !== -1) {
+			arg = filters[i].split(':');
+			filters[i] = arg[0];
+			arg = bacon.template._getVariable(arg[1], false, data);
+		}
 		if (typeof bacon.template.filters[filters[i]] === 'function') {
-			output = bacon.template.filters[filters[i]].call(null, output);
+			output = bacon.template.filters[filters[i]].call(null, output, arg);
 
 			if (filters[i] === 'escape' || filters[i] === 'safe') {
 				e = true;
@@ -224,6 +245,10 @@ bacon.template.filters.addslashes = function(input) {
 
 bacon.template.filters.capfirst = function(input) {
 	return input.charAt(0).toUpperCase() + input.slice(1);
+};
+
+bacom.template.filters.default = bacon.template.filters.default_if_none = function(input, def) {
+	return (input) ? input : def;
 };
 
 bacon.template.filters.escape = function(input) {

@@ -40,4 +40,11 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use .default_if_none', function(done) {
+		bacon.template.parse('{{ a|default_if_none:"test" }}', {a: ''}, function(res) {
+			$.expect(res).toEqual('test');
+			done();
+		});
+	}, true);
 });
