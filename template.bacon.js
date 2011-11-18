@@ -234,24 +234,24 @@ bacon.template._isTrue = function(code, data) {
 	return (not) ? !res : res;
 }
 
-bacon.template.filters = {};
+var filters = bacon.template.filters = {};
 
-bacon.template.filters.addslashes = function(input) {
+filters.addslashes = function(input) {
 	if (typeof input !== 'string') {
 		return input;
 	}
 	return input.replace(/("|')/g, '\\$1');
 };
 
-bacon.template.filters.capfirst = function(input) {
+filters.capfirst = function(input) {
 	return input.charAt(0).toUpperCase() + input.slice(1);
 };
 
-bacom.template.filters.default = bacon.template.filters.default_if_none = function(input, def) {
+filters.default = filters.default_if_none = function(input, def) {
 	return (input) ? input : def;
 };
 
-bacon.template.filters.escape = function(input) {
+filters.escape = function(input) {
 	if (typeof input !== 'string') {
 		return input;
 	}
@@ -262,17 +262,17 @@ bacon.template.filters.escape = function(input) {
 		.replace(/"/g, '&quot;');
 };
 
-bacon.template.filters.first = function(input) {
+filters.first = function(input) {
 	return input[0];
 };
 
-bacon.template.filters.safe = function(input) {
+filters.safe = function(input) {
 	return input;
 };
 
 
-bacon.template.tags = {};
-bacon.template.tags.if = function(code, contents, data) {
+var tags = bacon.template.tags = {};
+tags.if = function(code, contents, data) {
 	if (bacon.template._isTrue(code, data)) {
 		for (var endString = '', i = 0; i < contents.length; i++) {
 			endString += contents[i].parse(data);
@@ -282,7 +282,7 @@ bacon.template.tags.if = function(code, contents, data) {
 	return '';
 };
 
-bacon.template.tags.for = function(code, contents, data) {
+tags.for = function(code, contents, data) {
 	code = code.split(' ');
 	code[2] = code[2].split('|');
 	code[2] = bacon.template._getVariable(code[2][0], code[2].slice(1), data);
@@ -296,6 +296,6 @@ bacon.template.tags.for = function(code, contents, data) {
 	return endString;
 };
 
-bacon.template.tags.comment = function(code, contents, data) {
+tags.comment = function(code, contents, data) {
 	return '';
 };
