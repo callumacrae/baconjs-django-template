@@ -61,4 +61,24 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use divisibleby correctly', function(done) {
+		bacon.template.parse('{{ a|divisibleby:3 }}', {a:6}, function(res) {
+			$.expect(res).toEqual('true');
+			bacon.template.parse('{{ a|divisibleby:4 }}', {a:6}, function(res) {
+				$.expect(res).toEqual('false');
+				done();
+			});
+		});
+	}, true);
+
+	$.it('should use fix_ampersands correctly', function(done) {
+		bacon.template.parse('{{ a|safe|fix_ampersands }}', {a:"1 & 2"}, function(res) {
+			$.expect(res).toEqual('1 &amp; 2');
+			bacon.template.parse('{{ a|safe|fix_ampersands }}', {a:"1 &amp; 2"}, function(res) {
+				$.expect(res).toEqual('1 &amp; 2');
+				done();
+			});
+		});
+	});
 });

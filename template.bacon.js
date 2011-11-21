@@ -282,6 +282,10 @@ filters.dictsortreversed = function(input, prop) {
 	return input;
 };
 
+filters.divisibleby = function(input, prop) {
+	return !(input % prop);
+};
+
 filters.escape = function(input) {
 	if (typeof input !== 'string') {
 		return input;
@@ -296,6 +300,15 @@ filters.escape = function(input) {
 filters.first = function(input) {
 	return input[0];
 };
+
+filters.fix_ampersands = function(input) {
+	return input.replace(/&([^ ]+;)?/g, function(full, match) {
+		if (typeof match === 'undefined') {
+			return '&amp;'
+		}
+		return full;
+	});
+}
 
 filters.safe = function(input) {
 	return input;
