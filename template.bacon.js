@@ -410,7 +410,7 @@ filters.random = function(input) {
 		return input;
 	}
 
-	return input[Math.round(Math.random() * input.length)]
+	return input[Math.floor(Math.random() * input.length)]
 };
 
 filters.safe = function(input) {
