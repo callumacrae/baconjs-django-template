@@ -389,7 +389,21 @@ filters.linenumbers = function(input) {
 
 filters.lower = function(input) {
 	return input.toLowerCase();
-}
+};
+
+filters.make_list = function(input) {
+	if (typeof input === 'number') {
+		input = String(input);
+	}
+	if (typeof input !== 'string') {
+		return input;
+	}
+
+	for (var e = [], i = 0; i < input.length; i++) {
+		e.push(input.charAt(i));
+	}
+	return e;
+};
 
 filters.safe = function(input) {
 	return input;

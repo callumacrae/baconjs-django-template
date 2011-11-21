@@ -151,4 +151,11 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should make lists correctly', function(done) {
+		bacon.template.parse('{{ a|make_list }} {{ b|make_list }}', {a:'hello', b:1234}, function(res) {
+			$.expect(res).toEqual('["h","e","l","l","o"] ["1","2","3","4"]');
+			done();
+		});
+	}, true);
 });
