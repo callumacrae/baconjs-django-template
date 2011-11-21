@@ -308,7 +308,7 @@ filters.fix_ampersands = function(input) {
 		}
 		return full;
 	});
-}
+};
 
 filters.safe = function(input) {
 	return input;
