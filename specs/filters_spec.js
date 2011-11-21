@@ -54,4 +54,11 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use dictsortreversed correctly', function(done) {
+		bacon.template.parse('{{ a|dictsortreversed:"b" }}', {a:[{b:'b'}, {b:'d'}, {b:'a'}]}, function(res) {
+			$.expect(res).toEqual('[{"b":"d"},{"b":"b"},{"b":"a"}]');
+			done();
+		});
+	}, true);
 });

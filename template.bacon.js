@@ -267,6 +267,21 @@ filters.dictsort = function(input, prop) {
 	return input;
 };
 
+filters.dictsortreversed = function(input, prop) {
+	input = input.slice();
+	input.sort(function(a, b) {
+		if (a[prop] < b[prop]) {
+			return 1;
+		}
+		if (a[prop] > b[prop]) {
+			return -1;
+		}
+		return 0;
+	});
+
+	return input;
+};
+
 filters.escape = function(input) {
 	if (typeof input !== 'string') {
 		return input;
