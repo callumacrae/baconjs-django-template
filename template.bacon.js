@@ -387,6 +387,10 @@ filters.linenumbers = function(input) {
 	return input.join('\n');
 };
 
+filters.lower = function(input) {
+	return input.toLowerCase();
+}
+
 filters.safe = function(input) {
 	return input;
 };

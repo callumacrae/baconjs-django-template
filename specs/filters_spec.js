@@ -144,4 +144,11 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use lower correctly', function(done) {
+		bacon.template.parse('{{ a|lower }}', {a:'HeLoWorLD'}, function(res) {
+			$.expect(res).toEqual('heloworld');
+			done();
+		});
+	}, true);
 });
