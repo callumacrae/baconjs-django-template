@@ -303,10 +303,7 @@ filters.first = function(input) {
 
 filters.fix_ampersands = function(input) {
 	return input.replace(/&([^ ]+;)?/g, function(full, match) {
-		if (typeof match === 'undefined') {
-			return '&amp;'
-		}
-		return full;
+		return (typeof match === 'undefined') ? '&amp;' : full;
 	});
 };
 
