@@ -130,4 +130,11 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use linebreaksbr correctly', function(done) {
+		bacon.template.parse('{{ a|linebreaksbr }}', {a: 'hello\nworld\n'}, function(res) {
+			$.expect(res).toEqual('hello<br />world<br />');
+			done();
+		});
+	}, true);
 });

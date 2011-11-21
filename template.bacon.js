@@ -143,7 +143,18 @@ bacon.template._getVariable = function(name, filters, data) {
 		output = output.call(null, data);
 	}
 
-	for (var arg, e = false, i = 0; i < filters.length; i++) {
+	if (!(filters instanceof Array)) {
+		if (bacon.template.autoEscape) {
+			output = bacon.template.filters.escape(output);
+		}
+		return output;
+	}
+
+	if (filters.indexOf('escape') < 0 && filters.indexOf('safe') < 0 && bacon.template.autoEscape) {
+		output = bacon.template.filters.escape(output);
+	}
+
+	for (var arg, i = 0; i < filters.length; i++) {
 		arg = null;
 		if (filters[i].indexOf(':') !== -1) {
 			arg = filters[i].split(':');
@@ -152,15 +163,7 @@ bacon.template._getVariable = function(name, filters, data) {
 		}
 		if (typeof bacon.template.filters[filters[i]] === 'function') {
 			output = bacon.template.filters[filters[i]].call(null, output, arg);
-
-			if (filters[i] === 'escape' || filters[i] === 'safe') {
-				e = true;
-			}
 		}
-	}
-
-	if (bacon.template.autoEscape === true && !e) {
-		output = bacon.template.filters.escape(output);
 	}
 	return output;
 };
@@ -371,6 +374,10 @@ filters.length = function(input) {
 filters.length_is = function(input, length) {
 	return input.length == length;
 };
+
+filters.linebreaksbr = function(input) {
+	return input.replace(/\n/g, '<br />');
+}
 
 filters.safe = function(input) {
 	return input;
