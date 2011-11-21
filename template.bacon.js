@@ -379,6 +379,14 @@ filters.linebreaksbr = function(input) {
 	return input.replace(/\n/g, '<br />');
 };
 
+filters.linenumbers = function(input) {
+	input = input.split('\n');
+	for (var i = 0; i < input.length; i++) {
+		input[i] = (i + 1) + '. ' + input[i];
+	}
+	return input.join('\n');
+};
+
 filters.safe = function(input) {
 	return input;
 };

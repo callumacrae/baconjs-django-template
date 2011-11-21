@@ -137,4 +137,11 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use linenumbers properly', function(done) {
+		bacon.template.parse('{{ a|linenumbers }}', {a:'a\nb\nc\nd'}, function(res) {
+			$.expect(res).toEqual('1. a\n2. b\n3. c\n4. d');
+			done();
+		});
+	}, true);
 });
