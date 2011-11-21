@@ -417,6 +417,16 @@ filters.safe = function(input) {
 	return input;
 };
 
+filters.slugify = function(input) {
+	// Strip surrounding whitespace and special characters
+	input = input.replace(/(?:^ +| +$|[^a-zA-Z0-9 _])/g, '');
+
+	// Replace spaces with hyphens
+	input = input.replace(/ /g, '-');
+
+	return input.toLowerCase();
+};
+
 
 var tags = bacon.template.tags = {};
 tags.if = function(code, contents, data) {

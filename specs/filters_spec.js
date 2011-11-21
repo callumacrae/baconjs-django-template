@@ -165,4 +165,11 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use slugify correctly', function(done) {
+		bacon.template.parse('{{ a|slugify }}', {a:' Hi, this is a _test  '}, function(res) {
+			$.expect(res).toEqual('hi-this-is-a-_test');
+			done();
+		});
+	}, true);
 });
