@@ -377,7 +377,7 @@ filters.length_is = function(input, length) {
 
 filters.linebreaksbr = function(input) {
 	return input.replace(/\n/g, '<br />');
-}
+};
 
 filters.safe = function(input) {
 	return input;
