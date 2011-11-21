@@ -427,6 +427,16 @@ filters.slugify = function(input) {
 	return input.toLowerCase();
 };
 
+filters.title = function(input) {
+	input = input.split(' ');
+	for (var i = 0; i < input.length; i++) {
+		if (input[i].length > 0) {
+			input[i] = input[i].charAt(0).toUpperCase() + input[i].slice(1);
+		}
+	}
+	return input.join(' ');
+};
+
 
 var tags = bacon.template.tags = {};
 tags.if = function(code, contents, data) {

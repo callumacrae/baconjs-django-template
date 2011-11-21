@@ -172,4 +172,11 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use title correctly', function(done) {
+		bacon.template.parse('{{ a|title }}', {a:'this is a test title'}, function(res) {
+			$.expect(res).toEqual('This Is A Test Title');
+			done();
+		});
+	}, true);
 });
