@@ -351,7 +351,14 @@ filters.get_digit = function(input, place) {
 	}
 
 	return parseInt(input.charAt(input.length - place));
-}
+};
+
+filters.join = function(input, join) {
+	if (!(input instanceof Array)) {
+		return input;
+	}
+	return input.join(join);
+};
 
 filters.safe = function(input) {
 	return input;

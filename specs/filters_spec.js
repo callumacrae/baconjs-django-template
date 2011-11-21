@@ -102,4 +102,11 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use join correctly', function(done) {
+		bacon.template.parse('{{ a|join:" // " }}', {a:['a', 'b', 'c']}, function(res) {
+			$.expect(res).toEqual('a // b // c');
+			done();
+		});
+	}, true);
 });
