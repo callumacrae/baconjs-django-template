@@ -364,6 +364,14 @@ filters.last = function(input) {
 	return input[input.length - 1];
 };
 
+filters.length = function(input) {
+	return input.length;
+};
+
+filters.length_is = function(input, length) {
+	return input.length == length;
+};
+
 filters.safe = function(input) {
 	return input;
 };

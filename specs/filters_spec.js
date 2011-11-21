@@ -116,4 +116,18 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use length correctly', function(done) {
+		bacon.template.parse('{{ a|length }} {{ b|length }}', {a:'abcd', b:['a', 'b']}, function(res) {
+			$.expect(res).toEqual('4 2');
+			done();
+		});
+	}, true);
+
+	$.it('should use length_is correctly', function(done) {
+		bacon.template.parse('{{ a|length_is:"4" }} {{ a|length_is:"5" }}', {a:'abcd'}, function(res) {
+			$.expect(res).toEqual('true false');
+			done();
+		});
+	}, true);
 });
