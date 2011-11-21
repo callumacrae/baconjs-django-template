@@ -95,4 +95,11 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use get_digit correctly', function(done) {
+		bacon.template.parse('{{ a|get_digit:2 }} {{ a|get_digit:6 }} {{ a|get_digit:-2 }}', {a:12345}, function(res) {
+			$.expect(res).toEqual('4 12345 12345');
+			done();
+		});
+	}, true);
 });

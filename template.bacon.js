@@ -344,6 +344,15 @@ filters.force_escape = function(input, places) {
 	return filters.escape.apply(null, arguments);
 };
 
+filters.get_digit = function(input, place) {
+	input = String(input);
+	if (place > input.length || place < 0) {
+		return input;
+	}
+
+	return parseInt(input.charAt(input.length - place));
+}
+
 filters.safe = function(input) {
 	return input;
 };
