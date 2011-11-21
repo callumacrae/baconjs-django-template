@@ -88,4 +88,11 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use force_escape correctly', function(done) {
+		bacon.template.parse('{{ a|force_escape }}', {a:'<html>'}, function(res) {
+			$.expect(res).toEqual('&amp;lt;html&amp;gt;');
+			done();
+		});
+	}, true);
 });

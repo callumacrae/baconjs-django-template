@@ -340,6 +340,10 @@ filters.float_format = function(input, places) {
 	return input;
 };
 
+filters.force_escape = function(input, places) {
+	return filters.escape.apply(null, arguments);
+};
+
 filters.safe = function(input) {
 	return input;
 };
