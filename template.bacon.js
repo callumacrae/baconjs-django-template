@@ -26,7 +26,7 @@ bacon.template.parse = function(template, data, callback) {
 var TEXT = 0, VARIABLE = 1, TAG = 2;
 bacon.template._lexer = function(template) {
 	var end = [];
-	template = template.split(/(\{\# [^(\#\})]+ \#\}|\{\{ [a-zA-Z0-9_\.\|:\"]+ \}\}|\{% [^\{\}]+ %\})/g);
+	template = template.split(/(\{\# [^(\#\})]+ \#\}|\{\{ [a-zA-Z0-9_\.\|:\"\-]+ \}\}|\{% [^\{\}]+ %\})/g);
 	for (var i = 0; i < template.length; i++) {
 		if (template[i].indexOf('{%') === 0) {
 			end.push([TAG, template[i].slice(3, -3)]);
@@ -305,6 +305,39 @@ filters.fix_ampersands = function(input) {
 	return input.replace(/&([^ ]+;)?/g, function(full, match) {
 		return (typeof match === 'undefined') ? '&amp;' : full;
 	});
+};
+
+filters.float_format = function(input, places) {
+	if (places === null) {
+		places = -1;
+	}
+
+	var exact = false;
+	if (places < 0) {
+		places = 0 - places;
+		exact = true;
+	}
+
+	if (typeof input !== 'number') {
+		input = parseFloat(input);
+		if (isNaN(input)) {
+			return false;
+		}
+	}
+
+	// Math.round doesn't allow us to specify number of decimal places, so we multiply
+	// it by a factor of ten, round it, and then divide it again.
+	input = String(Math.round(input * Math.pow(10, places)) / Math.pow(10, places));
+
+	// Detect whether it is short of zeros Ð as it a string, we can add additional zeros.
+	if (exact && (input.indexOf('.') === -1 || input.indexOf('.') + places >= input.length)) {
+		if (input.indexOf('.') === -1) {
+			input += '.';
+		}
+		input += new Array(input.indexOf('.') + places + 2 - input.length).join('0');
+	}
+
+	return input;
 };
 
 filters.safe = function(input) {

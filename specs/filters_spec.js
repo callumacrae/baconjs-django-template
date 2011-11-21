@@ -80,5 +80,12 @@ $.describe('filter tests', function() {
 				done();
 			});
 		});
-	});
+	}, true);
+
+	$.it('should use float_format correctly', function(done) {
+		bacon.template.parse('{{ a|float_format }} {{ b|float_format }} {{ a|float_format:2 }} {{ a|float_format:-2 }}', {a: 3.10, b:2.0}, function(res) {
+			$.expect(res).toEqual('3.1 2.0 3.1 3.10');
+			done();
+		});
+	}, true);
 });
