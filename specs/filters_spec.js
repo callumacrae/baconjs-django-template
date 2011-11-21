@@ -109,4 +109,11 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use last correctly', function(done) {
+		bacon.template.parse('{{ a|last }}', {a:['a', 'b', 'c']}, function(res) {
+			$.expect(res).toEqual('c');
+			done();
+		});
+	}, true);
 });

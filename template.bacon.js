@@ -360,6 +360,10 @@ filters.join = function(input, join) {
 	return input.join(join);
 };
 
+filters.last = function(input) {
+	return input[input.length - 1];
+};
+
 filters.safe = function(input) {
 	return input;
 };
