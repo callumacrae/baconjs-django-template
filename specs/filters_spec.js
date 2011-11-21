@@ -47,4 +47,11 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use dictsort correctly', function(done) {
+		bacon.template.parse('{{ a|dictsort:"b" }}', {a:[{b:'b'}, {b:'d'}, {b:'a'}]}, function(res) {
+			$.expect(res).toEqual('[{"b":"a"},{"b":"b"},{"b":"d"}]');
+			done();
+		});
+	}, true);
 });

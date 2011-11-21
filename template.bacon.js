@@ -92,7 +92,8 @@ function BaconVarNode(name, filters) {
 	this.filters = filters;
 }
 BaconVarNode.prototype.parse = function(data) {
-	return bacon.template._getVariable(this.name, this.filters, data);
+	data = bacon.template._getVariable(this.name, this.filters, data);
+	return (typeof data === 'object') ? JSON.stringify(data) : data;
 };
 
 function BaconTagNode(name, code, contents) {
@@ -249,6 +250,21 @@ filters.capfirst = function(input) {
 
 filters.default = filters.default_if_none = function(input, def) {
 	return (input) ? input : def;
+};
+
+filters.dictsort = function(input, prop) {
+	input = input.slice();
+	input.sort(function(a, b) {
+		if (a[prop] < b[prop]) {
+			return -1;
+		}
+		if (a[prop] > b[prop]) {
+			return 1;
+		}
+		return 0;
+	});
+
+	return input;
 };
 
 filters.escape = function(input) {
