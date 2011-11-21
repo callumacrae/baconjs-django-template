@@ -179,4 +179,11 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use upper correctly', function(done) {
+		bacon.template.parse('{{ a|upper }}', {a:'test t'}, function(res) {
+			$.expect(res).toEqual('TEST T');
+			done();
+		});
+	}, true);
 });

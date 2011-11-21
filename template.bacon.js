@@ -437,6 +437,10 @@ filters.title = function(input) {
 	return input.join(' ');
 };
 
+filters.upper = function(input) {
+	return (typeof input === 'string') ? input.toUpperCase() : input;;
+};
+
 
 var tags = bacon.template.tags = {};
 tags.if = function(code, contents, data) {
