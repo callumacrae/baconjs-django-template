@@ -405,6 +405,14 @@ filters.make_list = function(input) {
 	return e;
 };
 
+filters.random = function(input) {
+	if (!(input instanceof Array)) {
+		return input;
+	}
+
+	return input[Math.round(Math.random() * input.length)]
+};
+
 filters.safe = function(input) {
 	return input;
 };

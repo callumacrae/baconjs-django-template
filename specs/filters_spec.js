@@ -158,4 +158,11 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use random correctly', function(done) {
+		bacon.template.parse('{{ a|random }}', {a:['a', 'b', 'c']}, function(res) {
+			$.expect(res.length).toEqual(1);
+			done();
+		});
+	}, true);
 });
