@@ -270,6 +270,22 @@ filters.capfirst = function(input) {
 	return input.charAt(0).toUpperCase() + input.slice(1);
 };
 
+
+//hello, 9 - "   hello  "
+filters.center = function(input, width) {
+	if (typeof input !== 'string' || input.length > width) {
+		return input;
+	}
+
+	// Remove existing white-space
+	input = input.replace(/(?:^ +| +$)/g, '');
+
+	width = (width - input.length) / 2;
+	var left = new Array((width % 1) ? Math.ceil(width) : width + 1).join(' ');
+	var right = (width % 1) ? left + ' ' : new Array(left).join(' ');
+	return left + input + right;
+};
+
 filters.default = filters.default_if_none = function(input, def) {
 	return (input) ? input : def;
 };

@@ -198,4 +198,15 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use center correctly', function(done) {
+		var data = {
+			a: 'a',
+			b: 'a   '
+		};
+		bacon.template.parse('{{ a|center:"5" }} {{ a|center:"4" }} {{ b|center:"5" }}', data, function(res) {
+			$.expect(res).toEqual('  a    a     a  ');
+			done();
+		});
+	}, true);
 });
