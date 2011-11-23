@@ -186,4 +186,16 @@ $.describe('filter tests', function() {
 			done();
 		});
 	}, true);
+
+	$.it('should use add correctly', function(done) {
+		var data = {
+			a: 'hel',
+			b: ['a', 'b', 'c'],
+			c: ['d', 'e', 'f']
+		}
+		bacon.template.parse('{{ a|add:"w" }} {{ b|add:c }} {{ b|add:a }}', data, function(res) {
+			$.expect(res).toEqual('helw ["a","b","c","d","e","f"] ["a","b","c","hel"]');
+			done();
+		});
+	}, true);
 });

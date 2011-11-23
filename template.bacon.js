@@ -240,6 +240,25 @@ bacon.template._isTrue = function(code, data) {
 
 var filters = bacon.template.filters = {};
 
+filters.add = function(input, add) {
+	var add_float = parseFloat(add);
+	var add_input = parseFloat(input);
+	if (!isNaN(add_float) && !isNaN(add_input)) {
+		return input + add;
+	}
+
+	if (input instanceof Array) {
+		if (add instanceof Array) {
+			input = input.concat(add);
+		} else {
+			input.push(add);
+		}
+		return input;
+	}
+
+	return input + add;
+};
+
 filters.addslashes = function(input) {
 	if (typeof input !== 'string') {
 		return input;
